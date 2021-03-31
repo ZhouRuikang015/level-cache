@@ -15,6 +15,7 @@ However,  **本地缓存** 由于与应用本身在同一个进程内部，无�
 因此，使用 **二级缓存** 可能是更好的选择，具体实现原理可看最后【思路来源及一点感想】。
 
 
+
 # 特征
 
 - 基于原有轮子spring cache、redis cache、ehcache 改造，易操作，学习成本少，bug 风险低
@@ -22,6 +23,8 @@ However,  **本地缓存** 由于与应用本身在同一个进程内部，无�
 - 支持缓存的自动刷新（当二级缓存命中并发现将要过期时，会主动刷新缓存）
 - 允许存空值解决缓存穿透问题
 - 项目代码结构简洁明了，易于二次开发，例如自定义序列化方式等
+
+
 
 # 使用
 
@@ -111,6 +114,8 @@ public class Application {
 }
 ```
 
+
+
 # 思路来源及一点感想
 
 #### 1. 仔细阅读源码，包括以下jar包中的 cache 包部分
@@ -123,9 +128,13 @@ public class Application {
 
 这是一个稍微耗时的过程，因为在原轮子上改造，所以更要求了解细节。但也不算复杂，值得一看。
 
+
+
 #### 2. 主要参考学习另一个开源项目 [layering-cache](https://github.com/xiaolyuh/layering-cache)
 
-该项目给我很大的启发，level-cache 的缓存流程与其基本一致，这里说一下在实现上的相似与区别。
+该项目给我很大的启发，level-cache 的缓存流程与其基本一致（**详细原理可学习这个项目**，上面有比较详细的文档，此项目作为对比理解）。这里仅说一下在实现上的相似与区别。
+
+
 
 - 自定义Cache类
 
@@ -133,9 +142,13 @@ public class Application {
 
 **level-cache** ：使用原生的 ehcacheCache 与 redisCache （有继承修改）组成 levelCache。
 
+
+
 - 数据一致性
 
 二者基本一致（我觉得直接使用的它代码传达的想法）。只不过他把这个原理 **描述** 成“一级缓存和二级缓存的数据一致性是通过 **推和拉两种模式** 相结合的方式来实现的。推主要是基于redis的pub/sub机制，拉主要是基于消息队列和记录消费消息的偏移量来实现的”。我个人认为这样描述可能不太容易理解，换成“通过 **主动与被动** 方式 **拉取消息** 维护缓存数据一致性。**主动** 通过 redis 的 pub/sub 机制进行，**被动** 通过 redis 消息队列和本地记录消费消息的偏移量实现”。
+
+
 
 - 注解及缓存配置
 
@@ -144,6 +157,8 @@ public class Application {
 **level-cache** ：使用原生的spring cache注解，配置只需常规的 ehcache.xml 与自定义的 application.yaml 上的redis 配置。
 
 > **！！！注意：缓存名的配置以 ehcache.xml 中优先，即 ehcache.xml 中存在即存在，application.yaml 的levelcache.cachesExpire 缺失则默认处理，超出则忽略。**
+
+
 
 #### 3. 一点感想
 
