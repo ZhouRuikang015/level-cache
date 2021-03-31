@@ -1,6 +1,6 @@
 # Level-cache
 
-level-cache-spring-boot-starter 是一个基于springboot的集成redis与ehcache的 **二级缓存** 快速启动器。使用原有轮子 spring cache、redis cache、ehcache 构建，仅需一键引入少量配置即可使用。
+level-cache-spring-boot-starter 是一个基于 springboot 的集成 redis 与 ehcache 的 **二级缓存** 快速启动器。使用原有轮子 spring cache、redis cache、ehcache 构建，仅需一键引入少量配置即可使用。
 
 level-cache-dubbo-demo 是一个简单的 dubbo 使用 demo 供参考，当然 spring cloud 亦可使用。
 
