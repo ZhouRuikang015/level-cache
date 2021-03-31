@@ -1,7 +1,5 @@
 # Level-cache
 
-简介
-
 level-cache-spring-boot-starter 是一个基于springboot的集成redis与ehcache的 **二级缓存** 快速启动器。使用原有轮子 spring cache、redis cache、ehcache 构建，仅需一键引入少量配置即可使用。
 
 level-cache-dubbo-demo 是一个简单的 dubbo 使用 demo 供参考，当然 spring cloud 亦可使用。
@@ -81,7 +79,8 @@ mvn clean install
 
 ```yaml
 levelcache:
-	# redis 频道名与 messageList 名标识相关，若注释不配置默认使用 spring.application.name。
+
+  # redis 频道名与 messageList 名标识相关，若注释不配置默认使用 spring.application.name。
   namespace: zrk 
   
   # redis 各缓存默认的 expire 时间为 50s。
